@@ -1,4 +1,4 @@
-﻿namespace CoorporateHotelKata.Tests;
+﻿namespace CoorporateHotelKata;
 
 public class HotelService
 {
@@ -9,9 +9,9 @@ public class HotelService
         this.hotelRepo = hotelRepo;
     }
 
-    public Hotel findHotelBy(int hotelId)
+    public Hotel? findHotelBy(int hotelId)
     {
-        throw new NotImplementedException();
+        return hotelRepo.GetHotel(hotelId);
     }
 
     public void addHotel(int hotelId, string hotelName)
@@ -23,17 +23,4 @@ public class HotelService
     {
         throw new NotImplementedException();
     }
-}
-
-public class Hotel
-{
-    private int hotelId;
-    private string name;
-    public List<Room> rooms { get; }
-    
-}
-
-public record Room
-{
-    
 }
