@@ -1,107 +1,100 @@
-﻿namespace CoorporateHotelKata.Tests;
+﻿using AutoFixture.Xunit2;
+
+namespace CoorporateHotelKata.Tests;
 
 public class HotelServiceShould
 {
-    [Fact]
-    public void FindAHotel()
-    {
-        IHotelRepository hotelRepo = new InMemoryHotelRepository();
-        var hotelService = new HotelService(hotelRepo);
-        
-        int hotelId = 0;
-        string hotelName = "hotel";
-        hotelRepo.AddHotel(hotelId, hotelName);
+    private IHotelRepository _hotelRepo;
+    private HotelService _hotelService;
 
-        var actualHotel = hotelService.FindHotelBy(hotelId);
+    public HotelServiceShould()
+    {
+        _hotelRepo = new InMemoryHotelRepository();
+        _hotelService = new HotelService(_hotelRepo);
+    }
+
+    [Theory]
+    [InlineAutoData]
+    public void FindAHotel(Hotel hotel)
+    {
+        _hotelRepo.AddHotel(hotel.HotelId, hotel.Name);
+
+        var actualHotel = _hotelService.FindHotelBy(hotel.HotelId);
 
         Assert.NotNull(actualHotel);
-        Assert.Equal(hotelId, actualHotel.HotelId);
-        Assert.Equal(hotelName, actualHotel.Name);
+        Assert.Equal(hotel.HotelId, actualHotel.HotelId);
+        Assert.Equal(hotel.Name, actualHotel.Name);
     }
     
-    [Fact]
-    public void ThrowExceptionWhenAddingExistingHotel()
+    [Theory]
+    [InlineAutoData]
+    public void ThrowExceptionWhenAddingExistingHotel(Hotel hotel)
     {
         IHotelRepository hotelRepo = new InMemoryHotelRepository();
         var hotelService = new HotelService(hotelRepo);
         
-        int hotelId = 0;
-        string hotelName = "hotel";
-        hotelRepo.AddHotel(hotelId, hotelName);
+        hotelRepo.AddHotel(hotel.HotelId, hotel.Name);
 
-        Assert.Throws<HotelExistsException>(() => hotelService.AddHotel(hotelId, hotelName));
+        Assert.Throws<HotelExistsException>(() => hotelService.AddHotel(hotel.HotelId, hotel.Name));
     }
     
-    [Fact]
-    public void CreateAHotel()
+    [Theory]
+    [InlineAutoData]
+    public void CreateAHotel(Hotel hotel)
     {
         IHotelRepository hotelRepo = new InMemoryHotelRepository();
         var hotelService = new HotelService(hotelRepo);
         
-        int hotelId = 0;
-        string hotelName = "hotel";
-        hotelService.AddHotel(hotelId, hotelName);
+        hotelService.AddHotel(hotel.HotelId, hotel.Name);
 
         
-        var actualHotel = hotelRepo.FindHotelBy(hotelId);
+        var actualHotel = hotelRepo.FindHotelBy(hotel.HotelId);
 
         Assert.NotNull(actualHotel);
-        Assert.Equal(hotelId, actualHotel.HotelId);
-        Assert.Equal(hotelName, actualHotel.Name);
+        Assert.Equal(hotel.HotelId, actualHotel.HotelId);
+        Assert.Equal(hotel.Name, actualHotel.Name);
     }
     
-    [Fact]
-    public void ThrowExceptionWhenSettingRoomAndHotelDoesNotExist()
+    [Theory]
+    [InlineAutoData]
+    public void ThrowExceptionWhenSettingRoomAndHotelDoesNotExist(int hotelId, Room room)
     {
         IHotelRepository hotelRepo = new InMemoryHotelRepository();
         var hotelService = new HotelService(hotelRepo);
         
-        int hotelId = 0;
-        int roomNumber = 123;
-        RoomType roomType = RoomType.StandardSingle;
-        
-        Assert.Throws<HotelNotExistsException>(() => hotelService.SetRoom(hotelId, roomNumber, roomType));
+        Assert.Throws<HotelNotExistsException>(() => hotelService.SetRoom(hotelId, room.Number, room.RoomType));
     }
     
-    [Fact]
-    public void CreateARoom()
+    [Theory]
+    [InlineAutoData]
+    public void CreateARoom(Hotel hotel, Room room)
     {
         IHotelRepository hotelRepo = new InMemoryHotelRepository();
         var hotelService = new HotelService(hotelRepo);
-        int hotelId = 0;
-        string hotelName = "hotel";
-        hotelRepo.AddHotel(hotelId, hotelName);
-        int roomNumber = 123;
-        RoomType roomType = RoomType.StandardSingle;
+        hotelRepo.AddHotel(hotel.HotelId, hotel.Name);
 
-        hotelService.SetRoom(hotelId, roomNumber, roomType);
+        hotelService.SetRoom(hotel.HotelId, room.Number, room.RoomType);
 
-        var actualHotel = hotelRepo.FindHotelBy(hotelId);
+        var actualHotel = hotelRepo.FindHotelBy(hotel.HotelId);
         Assert.NotNull(actualHotel);
-        var actualRoom = actualHotel!.FindRoomBy(roomNumber);
-        Assert.NotNull(actualRoom);
-        Assert.Equal(roomNumber, actualRoom!.Number);
-        Assert.Equal(roomType, actualRoom.RoomType);
+        var actualRoom = actualHotel!.FindRoomBy(room.Number);
+        Assert.Equal(room, actualRoom);
     }
     
-    [Fact]
-    public void UpdateARoom()
+    [Theory]
+    [InlineAutoData]
+    public void UpdateARoom(Hotel hotel, int roomNumber)
     {
         IHotelRepository hotelRepo = new InMemoryHotelRepository();
         var hotelService = new HotelService(hotelRepo);
-        int hotelId = 0;
-        string hotelName = "hotel";
-        hotelRepo.AddHotel(hotelId, hotelName);
-        int roomNumber = 123;
+        hotelRepo.AddHotel(hotel.HotelId, hotel.Name);
 
-        hotelService.SetRoom(hotelId, roomNumber, RoomType.StandardSingle);
-        hotelService.SetRoom(hotelId, roomNumber, RoomType.StandardDouble);
+        hotelService.SetRoom(hotel.HotelId, roomNumber, RoomType.StandardSingle);
+        hotelService.SetRoom(hotel.HotelId, roomNumber, RoomType.StandardDouble);
 
-        var actualHotel = hotelRepo.FindHotelBy(hotelId);
+        var actualHotel = hotelRepo.FindHotelBy(hotel.HotelId);
         Assert.NotNull(actualHotel);
         var actualRoom = actualHotel!.FindRoomBy(roomNumber);
-        Assert.NotNull(actualRoom);
-        Assert.Equal(roomNumber, actualRoom!.Number);
-        Assert.Equal(RoomType.StandardDouble, actualRoom.RoomType);
+        Assert.Equal(new Room(roomNumber, RoomType.StandardDouble), actualRoom);
     }
 }
