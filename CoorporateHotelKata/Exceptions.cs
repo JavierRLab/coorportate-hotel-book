@@ -6,3 +6,10 @@ public class HotelExistsException : Exception
     {
     }
 }
+
+public class HotelNotExistsException : Exception
+{
+    public HotelNotExistsException(string? message) : base(message)
+    {
+    }
+}

@@ -6,16 +6,19 @@ public class AcceptanceTests
     public void Test1()
     {
         HotelService hotelService = new HotelService(new InMemoryHotelRepository());
-        
         int hotelId = 0;
         string hotelName = "hotel";
         hotelService.AddHotel(hotelId, hotelName);
+        int roomNumber = 123;
+        RoomType roomType = RoomType.JuniorSuite;
         
-        int number = 0;
-        object roomType = null;
-        hotelService.setRoom(hotelId, number, roomType);
+        hotelService.SetRoom(hotelId, roomNumber, roomType);
         
-        Room expectedRoom = null;
-        Assert.Equal(expectedRoom, hotelService.FindHotelBy(hotelId).rooms.First());
+        var actualHotel = hotelService.FindHotelBy(hotelId);
+        Assert.NotNull(actualHotel);
+        var actualRoom = actualHotel!.FindRoomBy(roomNumber);
+        Assert.NotNull(actualRoom);
+        Assert.Equal(roomNumber, actualRoom.Number);
+        Assert.Equal(roomType, actualRoom.RoomType);
     }
 }

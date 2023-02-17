@@ -1,6 +1,3 @@
 ﻿namespace CoorporateHotelKata;
 
-public record Room
-{
-    
-}
+public record Room(int Number, RoomType RoomType);

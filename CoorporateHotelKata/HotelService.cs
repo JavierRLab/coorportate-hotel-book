@@ -23,8 +23,22 @@ public class HotelService
         hotelRepo.AddHotel(hotelId, hotelName);
     }
 
-    public void setRoom(int hotelId, int number, object roomType)
+    public void SetRoom(int hotelId, int number, RoomType roomType)
     {
-        throw new NotImplementedException();
+        var hotel = hotelRepo.FindHotelBy(hotelId);
+        if (hotel is null)
+        {
+            throw new HotelNotExistsException($"A hotel with ID: {hotelId} does not exist.");
+        }
+
+        hotel.SetRoom(number, roomType);
     }
+}
+
+public enum RoomType
+{
+    StandardSingle,
+    StandardDouble,
+    StandardSuite,
+    JuniorSuite
 }

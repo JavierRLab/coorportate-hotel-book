@@ -13,7 +13,7 @@ public class InMemoryHotelRepository : IHotelRepository
 
     public void AddHotel(int hotelId, string hotelName)
     {
-        hotels.Add(hotelId, new Hotel(){hotelId = hotelId, name = hotelName});
+        hotels.Add(hotelId, new Hotel(){HotelId = hotelId, Name = hotelName});
     }
 
     public Hotel? FindHotelBy(int hotelId)
