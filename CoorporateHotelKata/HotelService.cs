@@ -9,14 +9,18 @@ public class HotelService
         this.hotelRepo = hotelRepo;
     }
 
-    public Hotel? findHotelBy(int hotelId)
+    public Hotel? FindHotelBy(int hotelId)
     {
-        return hotelRepo.GetHotel(hotelId);
+        return hotelRepo.FindHotelBy(hotelId);
     }
 
-    public void addHotel(int hotelId, string hotelName)
+    public void AddHotel(int hotelId, string hotelName)
     {
-        throw new NotImplementedException();
+        if (hotelRepo.FindHotelBy(hotelId) is not null)
+        {
+            throw new HotelExistsException($"A hotel with ID: {hotelId} already exists.");
+        }
+        hotelRepo.AddHotel(hotelId, hotelName);
     }
 
     public void setRoom(int hotelId, int number, object roomType)

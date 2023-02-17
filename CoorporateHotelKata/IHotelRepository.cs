@@ -4,7 +4,7 @@ public interface IHotelRepository
 {
     void AddHotel(int hotelId, string hotelName);
 
-    Hotel? GetHotel(int hotelId);
+    Hotel? FindHotelBy(int hotelId);
 }
 
 public class InMemoryHotelRepository : IHotelRepository
@@ -16,7 +16,7 @@ public class InMemoryHotelRepository : IHotelRepository
         hotels.Add(hotelId, new Hotel(){hotelId = hotelId, name = hotelName});
     }
 
-    public Hotel? GetHotel(int hotelId)
+    public Hotel? FindHotelBy(int hotelId)
     {
         if (hotels.TryGetValue(hotelId, out var hotel))
             return hotel;
