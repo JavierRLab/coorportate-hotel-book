@@ -1,8 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoorporateHotelKata", "CoorporateHotelKata\CoorporateHotelKata.csproj", "{47F5365F-1A73-418D-B6E4-161F1CE58FE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoorporateHotelKata.Tests", "CoorporateHotelKata.Tests\CoorporateHotelKata.Tests.csproj", "{72D6EE5D-6AF8-46D9-9B4D-DDCC24BDCFE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{47F5365F-1A73-418D-B6E4-161F1CE58FE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47F5365F-1A73-418D-B6E4-161F1CE58FE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47F5365F-1A73-418D-B6E4-161F1CE58FE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47F5365F-1A73-418D-B6E4-161F1CE58FE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72D6EE5D-6AF8-46D9-9B4D-DDCC24BDCFE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72D6EE5D-6AF8-46D9-9B4D-DDCC24BDCFE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72D6EE5D-6AF8-46D9-9B4D-DDCC24BDCFE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72D6EE5D-6AF8-46D9-9B4D-DDCC24BDCFE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
